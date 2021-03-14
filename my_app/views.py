@@ -16,7 +16,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 class InvoiceListView(generics.ListCreateAPIView):
-    queryset = Invoice.objects.all()
+    queryset = Invoice.objects.all().order_by('id')
     serializer_class = InvoiceSerializer
     pagination_class = StandardResultsSetPagination
     permission_classes = []
@@ -124,5 +124,5 @@ class InvoiceDetailView(generics.ListAPIView):
     def get_queryset(self):
         pk = self.kwargs.get('pk', None)
         if pk:
-            return InvoiceDetail.objects.filter(invoice_id=pk).select_related('invoice')
-        return InvoiceDetail.objects.all().select_related('invoice')
+            return InvoiceDetail.objects.filter(invoice_id=pk).select_related('invoice').order_by('id')
+        return InvoiceDetail.objects.all().select_related('invoice').order_by('id')
